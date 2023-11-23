@@ -32,5 +32,4 @@ def update_memo(req_memo:Memo):
 
 
 
-
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+sapp.mount("/", StaticFiles(directory="static", html=True), name="static")
