@@ -1,3 +1,12 @@
+async function deleteMemo(event){
+    const id= event.target.dataset.id;
+    const res= await fetch(`/memos/${id}`, {
+        method: "DELETE",
+    }); 
+    readMemo();
+    console.log(id);
+}
+
 async function updateMemo(event){
     //get ID of memo to know which memo update btn was clicked
     //eventlistener은 항상 event를 return하니까. 
@@ -35,6 +44,16 @@ function displayMemo(memo){
     
     updateBtn.dataset.id = memo.id;
 
+    //delete button
+    const deleteBtn=  document.createElement("button");
+    deleteBtn.innerText= "delete";
+    li.appendChild(deleteBtn);
+
+    deleteBtn.addEventListener("click", deleteMemo);
+    
+    
+    deleteBtn.dataset.id = memo.id;
+
 }
 
 
@@ -55,11 +74,11 @@ async function createMemo(value){
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            id: new Date().getTime(),
+            id: toString(new Date().getTime()),
             content: value,
         }),
     });
-
+    
     readMemo();
 
 }

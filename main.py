@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 class Memo(BaseModel):
-    id: int
+    id: str
     content: str
 
 memos= []
@@ -32,4 +32,14 @@ def update_memo(req_memo:Memo):
 
 
 
-sapp.mount("/", StaticFiles(directory="static", html=True), name="static")
+
+@app.delete("/memos/{memo_id}")
+def delete_memo(memo_id):
+    for index, memo in enumerate(memos):
+        if memo.id == memo_id:
+            memos.pop(index)
+            return "memo successfully deleted"
+    return "no such memo"
+
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
